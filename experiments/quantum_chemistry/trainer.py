@@ -150,6 +150,8 @@ def main(
 
             losses = F.mse_loss(out, data.y, reduction="none").mean(0)
 
+            print('\nDEBUG__ losses', losses)
+
             loss, extra_outputs = weight_method.backward(
                 losses=losses,
                 shared_parameters=list(model.shared_parameters()),
@@ -157,7 +159,7 @@ def main(
                 last_shared_parameters=list(model.last_shared_parameters()),
                 representation=features,
             )
-
+            print('\nDEBUG__ loss', loss)
             loss_list.append(losses.detach().cpu())
             optimizer.step()
 
@@ -165,7 +167,10 @@ def main(
                 with torch.no_grad():
                     out_ = model(data, return_representation=False)
                     new_losses = F.mse_loss(out_, data.y, reduction="none").mean(0)
+                    print('\nDEBUG__ new_losses', new_losses)
                     weight_method.method.update(new_losses.detach())
+
+        print(f'Epoch {epoch}, Task Weights: {weight_method.method.w.detach().cpu().numpy()}')
 
         val_loss_dict = evaluate(model, val_loader, std=std, scale_target=scale_target)
         test_loss_dict = evaluate(
