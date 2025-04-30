@@ -9,7 +9,7 @@ import torch
 import torch.nn.functional as F
 from scipy.optimize import minimize
 
-from .min_norm_solvers import MinNormSolver, gradient_normalizers
+from methods.min_norm_solvers import MinNormSolver, gradient_normalizers
 
 EPS = 1e-8 # for numerical stability
 

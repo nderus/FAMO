@@ -215,7 +215,7 @@ class Agent(grad_manipulation_agent.Agent):
             self.prvs_alpha_param.value = alpha_t
 
             try:
-                self.prob.solve(solver=cp.ECOS, warm_start=True, max_iters=100)
+                self.prob.solve(solver=cp.CLARABEL, warm_start=True, max_iters=100)
             except:
                 self.alpha_param.value = self.prvs_alpha_param.value
 
